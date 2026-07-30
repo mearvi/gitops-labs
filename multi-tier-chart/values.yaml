@@ -1,0 +1,40 @@
+frontend:
+  replicaCount: 2
+
+  image:
+    repository: nginx
+    tag: latest
+
+  service:
+    port: 80
+
+backend:
+  replicaCount: 2
+
+  image:
+    repository: mearvi/flask-lab
+    tag: latest
+
+  service:
+    port: 5000
+
+postgres:
+  image:
+    repository: postgres
+    tag: "16"
+
+  database: appdb
+
+  username: appuser
+
+  password: apppassword
+
+  service:
+    port: 5432
+
+ingress:
+  enabled: true
+
+  className: nginx
+
+  host: multi.lab.local
