@@ -11,7 +11,7 @@ spec:
   source:
     repoURL: https://github.com/mearvi/gitops-labs.git
     targetRevision: main
-    path: applications/root
+    path: applications/root/root.yml
 
   destination:
     server: https://kubernetes.default.svc
