@@ -1,0 +1,38 @@
+frontend:
+  replicaCount: 2
+
+backend:
+  replicaCount: 3
+
+postgres:
+  image:
+    repository: postgres
+    tag: "16"
+
+  database: appdb
+
+  username: appuser
+
+  password: apppassword
+
+  service:
+    port: 5432
+
+frontend:
+  image:
+    repository: nginx
+    tag: latest
+  service:
+    port: 80
+
+backend:
+  image:
+    repository: mearvi/flask-lab
+    tag: latest
+  service:
+    port: 5000
+
+ingress:
+  enabled: true
+  className: nginx
+  host: stage.lab.local
