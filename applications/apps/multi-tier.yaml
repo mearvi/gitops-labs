@@ -13,6 +13,10 @@ spec:
     targetRevision: main
     path: helm/multi-tier-chart
 
+    helm:
+      valueFiles:
+        - ../../environments/dev/values.yaml
+
   destination:
     server: https://kubernetes.default.svc
     namespace: multi-dev
