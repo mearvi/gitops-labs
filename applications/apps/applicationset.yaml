@@ -1,0 +1,60 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+
+metadata:
+  name: multi-tier-appset
+  namespace: argocd
+
+spec:
+
+  generators:
+
+  - list:
+      elements:
+
+      - name: dev
+        namespace: multi-dev
+        valuesFile: ../../environments/dev/values.yaml
+
+      - name: qa
+        namespace: multi-qa
+        valuesFile: ../../environments/qa/values.yaml
+
+      - name: stage
+        namespace: multi-stage
+        valuesFile: ../../environments/stage/values.yaml
+
+      - name: prod
+        namespace: multi-prod
+        valuesFile: ../../environments/prod/values.yaml
+
+  template:
+
+    metadata:
+      name: multi-tier-{{name}}
+
+    spec:
+
+      project: default
+
+      source:
+        repoURL: https://github.com/mearvi/gitops-labs.git
+        targetRevision: main
+        path: helm/multi-tier-chart
+
+        helm:
+          valueFiles:
+            - "{{valuesFile}}"
+
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: "{{namespace}}"
+
+      syncPolicy:
+
+        automated:
+          prune: true
+          selfHeal: true
+
+        syncOptions:
+          - CreateNamespace=true
